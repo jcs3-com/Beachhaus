@@ -12,7 +12,7 @@ export function useWeather(config) {
       `https://api.open-meteo.com/v1/forecast` +
       `?latitude=${latitude}&longitude=${longitude}` +
       `&current=temperature_2m,weather_code,wind_speed_10m` +
-      `&daily=temperature_2m_max,temperature_2m_min` +
+      `&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset` +
       `&temperature_unit=fahrenheit&wind_speed_unit=mph` +
       `&timezone=${encodeURIComponent(timezone)}&forecast_days=1`;
 
@@ -30,6 +30,10 @@ export function useWeather(config) {
           windMph: data.current.wind_speed_10m,
           highF: data.daily.temperature_2m_max[0],
           lowF: data.daily.temperature_2m_min[0],
+          // Phase 2: solar anchors for timeOfDay. Open-Meteo returns
+          // local ISO strings when a timezone is requested.
+          sunrise: new Date(data.daily.sunrise[0]),
+          sunset: new Date(data.daily.sunset[0]),
         });
         setError(null);
       } catch (e) {

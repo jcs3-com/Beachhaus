@@ -36,7 +36,8 @@ export function conditionFromWmoCode(code) {
   return "clouds"; // safe fallback for unknown codes
 }
 
-// Clock-based timeOfDay. Phase 2: solar-anchored via sunrise/sunset.
+// Clock-based timeOfDay — Phase 1 behavior, retained as the fallback
+// whenever solar data hasn't loaded yet (or the API is unreachable).
 export function timeOfDayFromDate(date, boundaries) {
   const h = date.getHours();
   if (h >= boundaries.night || h < boundaries.dawn) return "night";
@@ -44,6 +45,40 @@ export function timeOfDayFromDate(date, boundaries) {
   if (h < boundaries.midday) return "morning";
   if (h < boundaries.afternoon) return "midday";
   if (h < boundaries.dusk) return "afternoon";
+  return "dusk";
+}
+
+// Phase 2: solar-anchored timeOfDay. Windows are anchored to actual
+// sunrise/sunset rather than fixed clock hours, so dawn at the beach
+// in July (~5:45am) and dawn in an off-season December visit (~7:10am)
+// both render correctly.
+//
+//   dawn:      sunrise − 30m  →  sunrise + 30m
+//   morning:   dawn end       →  solar noon − 90m
+//   midday:    solar noon ± 90m
+//   afternoon: midday end     →  sunset − 30m
+//   dusk:      sunset − 30m   →  sunset + 30m
+//   night:     everything else
+const MIN = 60000;
+
+export function solarTimeOfDay(now, sunrise, sunset) {
+  const t = now.getTime();
+  const rise = sunrise.getTime();
+  const set = sunset.getTime();
+  const noon = (rise + set) / 2;
+
+  const dawnStart = rise - 30 * MIN;
+  const dawnEnd = rise + 30 * MIN;
+  const middayStart = Math.max(noon - 90 * MIN, dawnEnd);
+  const middayEnd = Math.min(noon + 90 * MIN, set - 30 * MIN);
+  const duskStart = set - 30 * MIN;
+  const duskEnd = set + 30 * MIN;
+
+  if (t < dawnStart || t >= duskEnd) return "night";
+  if (t < dawnEnd) return "dawn";
+  if (t < middayStart) return "morning";
+  if (t < middayEnd) return "midday";
+  if (t < duskStart) return "afternoon";
   return "dusk";
 }
 
@@ -81,9 +116,18 @@ export function vacationStateFromDate(now, vacation) {
 // Assemble the full WorldState. Everything the UI renders flows
 // through this object — sky backdrop and widgets alike.
 export function deriveWorldState({ config, now, rawWeather, events, announcements }) {
+  const hasSolar =
+    rawWeather?.sunrise instanceof Date &&
+    !isNaN(rawWeather.sunrise) &&
+    rawWeather?.sunset instanceof Date &&
+    !isNaN(rawWeather.sunset);
+
   return {
     now,
-    timeOfDay: timeOfDayFromDate(now, config.timeOfDayBoundaries),
+    // Solar-anchored when sunrise/sunset are available; clock-based fallback.
+    timeOfDay: hasSolar
+      ? solarTimeOfDay(now, rawWeather.sunrise, rawWeather.sunset)
+      : timeOfDayFromDate(now, config.timeOfDayBoundaries),
     weather: rawWeather
       ? {
           condition: conditionFromWmoCode(rawWeather.weatherCode),
