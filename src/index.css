@@ -7,6 +7,8 @@
   --color-seafoam: #cfe8e0;
   --color-coral: #ff6f59;
   --color-sandcard: rgba(255, 252, 245, 0.78);
+  --color-vote-pink: #f4669f;
+  --color-vote-blue: #58b4f0;
 }
 
 body {

@@ -67,9 +67,9 @@ export function Poll({ pollConfig, formConfig, votes, onVoted }) {
               <button
                 onClick={() => toggle(opt)}
                 aria-pressed={isSelected}
-                className={`rounded-full px-3 py-1.5 text-sm border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-coral)] ${
+                className={`rounded-full px-3 py-1.5 text-sm border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-vote-pink)] ${
                   isSelected
-                    ? "border-[var(--color-coral)] bg-[var(--color-coral)] text-white font-semibold"
+                    ? "border-[var(--color-vote-pink)] bg-[var(--color-vote-pink)] text-white font-semibold"
                     : "border-stone-300 bg-white/50 text-stone-700 hover:bg-white/80"
                 }`}
               >
@@ -86,7 +86,7 @@ export function Poll({ pollConfig, formConfig, votes, onVoted }) {
           <button
             onClick={submit}
             disabled={status === "posting" || selected.size === 0}
-            className="text-sm font-bold text-white bg-[var(--color-coral)] rounded-full px-5 py-2 disabled:opacity-40 hover:opacity-90"
+            className="text-sm font-bold text-white bg-[var(--color-vote-pink)] rounded-full px-5 py-2 disabled:opacity-40 hover:opacity-90"
           >
             {status === "voted" ? "Voted ✓" : status === "posting" ? "…" : `Vote${selected.size ? ` (${selected.size})` : ""}`}
           </button>
@@ -122,8 +122,8 @@ export function Poll({ pollConfig, formConfig, votes, onVoted }) {
                     <div
                       className={`absolute inset-y-0 left-0 rounded-md transition-[width] duration-700 ${
                         leader
-                          ? "bg-[var(--color-coral)]"
-                          : "bg-[var(--color-seafoam)]"
+                          ? "bg-[var(--color-vote-pink)]"
+                          : "bg-[var(--color-vote-blue)]"
                       }`}
                       style={{ width: `${pct}%` }}
                       aria-hidden="true"

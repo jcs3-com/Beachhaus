@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { sampleAnnouncements } from "../data/sampleAnnouncements.js";
 
 // v1: Google Form -> Sheet -> published CSV. If no csvUrl is configured,
@@ -11,7 +11,10 @@ import { sampleAnnouncements } from "../data/sampleAnnouncements.js";
 // notes are ephemeral by default.
 export function useAnnouncements(config) {
   const [items, setItems] = useState(null);
-  const [votes, setVotes] = useState([]);
+  const [serverVotes, setServerVotes] = useState([]);
+  // Optimistic vote bumps: shown immediately, dropped once the sheet
+  // reflects them (or after a 5-min TTL). Same philosophy as notes.
+  const [pendingVotes, setPendingVotes] = useState([]);
 
   // Optimistic local add: the composer calls this immediately after a
   // (blind, no-cors) form POST so the poster sees their note at once.
@@ -39,7 +42,7 @@ export function useAnnouncements(config) {
         const voteRows = all.filter(isVote);
         const fresh = applyExpiry(noteRows);
         setItems((prev) => mergeOptimistic(fresh, prev));
-        setVotes(tallyVotes(voteRows));
+        setServerVotes(tallyVotes(voteRows));
       } catch {
         if (!cancelled) setItems(sampleAnnouncements);
       }
@@ -53,7 +56,51 @@ export function useAnnouncements(config) {
     };
   }, [config]);
 
-  return { items, addLocal, votes };
+  const addLocalVotes = (options) => {
+    const now = Date.now();
+    setPendingVotes((prev) => [
+      ...prev,
+      ...options.map((option) => ({
+        option,
+        baseline: serverVotes.find((v) => v.option === option)?.count ?? 0,
+        t: now,
+      })),
+    ]);
+  };
+
+  const votes = useMemo(
+    () => mergeVoteBumps(serverVotes, pendingVotes),
+    [serverVotes, pendingVotes]
+  );
+
+  return { items, addLocal, votes, addLocalVotes };
+}
+
+// Combine server tallies with recent optimistic bumps. For each option,
+// any server growth since a bump's baseline "absorbs" that bump, so
+// counts never double once the sheet catches up, and never flicker down.
+function mergeVoteBumps(serverVotes, pendingVotes) {
+  const cutoff = Date.now() - 5 * 60000;
+  const alive = pendingVotes.filter((p) => p.t > cutoff);
+  if (alive.length === 0) return serverVotes;
+
+  const counts = new Map(serverVotes.map((v) => [v.option, v.count]));
+  const byOption = new Map();
+  for (const p of alive) {
+    if (!byOption.has(p.option)) byOption.set(p.option, []);
+    byOption.get(p.option).push(p);
+  }
+  for (const [option, bumps] of byOption) {
+    const server = counts.get(option) ?? 0;
+    const minBaseline = Math.min(...bumps.map((b) => b.baseline));
+    const absorbed = Math.max(0, server - minBaseline);
+    const extra = Math.max(0, bumps.length - absorbed);
+    counts.set(option, server + extra);
+  }
+  return [...counts.entries()]
+    .map(([option, count]) => ({ option, count }))
+    .filter((v) => v.count > 0)
+    .sort((a, b) => b.count - a.count);
 }
 
 const VOTE_PREFIX = "#vote:";

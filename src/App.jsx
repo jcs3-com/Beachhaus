@@ -19,7 +19,7 @@ import {
 export default function App() {
   const now = useClock();
   const { raw: rawWeather } = useWeather(Config);
-  const { items: announcements, addLocal, votes } = useAnnouncements(Config);
+  const { items: announcements, addLocal, votes, addLocalVotes } = useAnnouncements(Config);
   const { events, preview } = useEvents();
 
   // Single derivation point: everything below renders from WorldState.
@@ -71,7 +71,7 @@ export default function App() {
               pollConfig={Config.poll}
               formConfig={Config.announcements.form}
               votes={votes}
-              onVoted={() => {}}
+              onVoted={addLocalVotes}
             />
           </div>
           <UsefulLinks links={Config.usefulLinks} />
