@@ -62,18 +62,11 @@ function isVote(row) {
   return row.message.trim().toLowerCase().startsWith(VOTE_PREFIX);
 }
 
-// Latest submission per name wins, so people can change their minds.
+// Every submission counts — anonymous, no dedup by design.
 // Returns [{ option, count }] sorted by count descending.
 function tallyVotes(voteRows) {
-  const latestByName = new Map();
-  for (const row of voteRows) {
-    const prev = latestByName.get(row.name.toLowerCase());
-    if (!prev || row.postedAt > prev.postedAt) {
-      latestByName.set(row.name.toLowerCase(), row);
-    }
-  }
   const counts = new Map();
-  for (const row of latestByName.values()) {
+  for (const row of voteRows) {
     const picks = row.message.trim().slice(VOTE_PREFIX.length).split("|");
     for (const p of picks) {
       const opt = p.trim();

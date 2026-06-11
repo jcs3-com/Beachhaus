@@ -12,9 +12,6 @@ export function Poll({ pollConfig, formConfig, votes, onVoted }) {
       return new Set();
     }
   });
-  const [name, setName] = useState(
-    () => localStorage.getItem("beachhaus-name") ?? ""
-  );
   const [status, setStatus] = useState("idle"); // idle | posting | voted
 
   const wired = formConfig.entryName && formConfig.entryNote;
@@ -29,11 +26,10 @@ export function Poll({ pollConfig, formConfig, votes, onVoted }) {
     });
   }
 
+  // Anonymous voting, no dedup: every submission counts toward the tally.
   async function submit() {
-    const trimmedName = name.trim();
-    if (!trimmedName || selected.size === 0) return;
+    if (selected.size === 0) return;
     setStatus("posting");
-    localStorage.setItem("beachhaus-name", trimmedName);
     localStorage.setItem("beachhaus-poll", JSON.stringify([...selected]));
 
     const message = "#vote: " + [...selected].join("|");
@@ -43,15 +39,16 @@ export function Poll({ pollConfig, formConfig, votes, onVoted }) {
         mode: "no-cors",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
-          [formConfig.entryName]: trimmedName,
+          [formConfig.entryName]: "poll",
           [formConfig.entryNote]: message,
         }),
       });
     } catch {
       // opaque request; optimistic regardless
     }
-    onVoted(trimmedName, [...selected]);
+    onVoted([...selected]);
     setStatus("voted");
+    setTimeout(() => setStatus("idle"), 2500);
   }
 
   return (
@@ -102,22 +99,17 @@ export function Poll({ pollConfig, formConfig, votes, onVoted }) {
       </ul>
 
       {wired ? (
-        <div className="mt-3 flex gap-2 items-center">
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Your name"
-            maxLength={40}
-            className="flex-1 rounded-lg border border-stone-300 bg-white/80 px-3 py-2 text-sm text-stone-800 placeholder:text-stone-400 focus:outline focus:outline-2 focus:outline-[var(--color-coral)]"
-          />
+        <div className="mt-3 flex gap-3 items-center">
           <button
             onClick={submit}
-            disabled={status === "posting" || !name.trim() || selected.size === 0}
-            className="text-sm font-bold text-white bg-[var(--color-coral)] rounded-full px-4 py-2 disabled:opacity-40 hover:opacity-90"
+            disabled={status === "posting" || selected.size === 0}
+            className="text-sm font-bold text-white bg-[var(--color-coral)] rounded-full px-5 py-2 disabled:opacity-40 hover:opacity-90"
           >
-            {status === "voted" ? "Voted ✓" : status === "posting" ? "…" : "Vote"}
+            {status === "voted" ? "Voted ✓" : status === "posting" ? "…" : `Vote${selected.size ? ` (${selected.size})` : ""}`}
           </button>
+          {status === "voted" && (
+            <span className="text-xs text-stone-500">Counted! Vote again anytime.</span>
+          )}
         </div>
       ) : (
         <p className="text-xs text-stone-500 mt-3">
