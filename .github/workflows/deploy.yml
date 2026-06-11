@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "*/30 * * * *" # refresh agenda data every 30 minutes
   workflow_dispatch:
 
 permissions:
@@ -24,6 +26,11 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
+      - name: Fetch calendar events (private ICS, build-time only)
+        run: node scripts/fetch-events.mjs
+        env:
+          ICS_URL: ${{ secrets.ICS_URL }}
+          TZ: America/New_York
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

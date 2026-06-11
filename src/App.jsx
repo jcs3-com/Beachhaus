@@ -3,7 +3,7 @@ import { deriveWorldState } from "./state/worldState.js";
 import { useClock } from "./hooks/useClock.js";
 import { useWeather } from "./hooks/useWeather.js";
 import { useAnnouncements } from "./hooks/useAnnouncements.js";
-import { sampleEvents } from "./data/sampleEvents.js";
+import { useEvents } from "./hooks/useEvents.js";
 import { SkyBackdrop } from "./components/SkyBackdrop.jsx";
 import { HouseLayer } from "./components/HouseLayer.jsx";
 import {
@@ -18,13 +18,14 @@ export default function App() {
   const now = useClock();
   const { raw: rawWeather } = useWeather(Config);
   const announcements = useAnnouncements(Config);
+  const events = useEvents();
 
   // Single derivation point: everything below renders from WorldState.
   const worldState = deriveWorldState({
     config: Config,
     now,
     rawWeather,
-    events: sampleEvents, // swapped for ICS-proxy data when the endpoint lands
+    events, // live ICS data via build pipeline; sample fallback inside the hook
     announcements,
   });
 
