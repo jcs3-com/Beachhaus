@@ -11,6 +11,7 @@ import { sampleAnnouncements } from "../data/sampleAnnouncements.js";
 // notes are ephemeral by default.
 export function useAnnouncements(config) {
   const [items, setItems] = useState(null);
+  const [votes, setVotes] = useState([]);
 
   // Optimistic local add: the composer calls this immediately after a
   // (blind, no-cors) form POST so the poster sees their note at once.
@@ -24,6 +25,7 @@ export function useAnnouncements(config) {
       return;
     }
 
+
     let cancelled = false;
 
     async function load() {
@@ -32,8 +34,12 @@ export function useAnnouncements(config) {
         if (!res.ok) throw new Error(`Sheet CSV ${res.status}`);
         const text = await res.text();
         if (cancelled) return;
-        const fresh = applyExpiry(parseCsv(text));
+        const all = parseCsv(text);
+        const noteRows = all.filter((r) => !isVote(r));
+        const voteRows = all.filter(isVote);
+        const fresh = applyExpiry(noteRows);
         setItems((prev) => mergeOptimistic(fresh, prev));
+        setVotes(tallyVotes(voteRows));
       } catch {
         if (!cancelled) setItems(sampleAnnouncements);
       }
@@ -47,7 +53,36 @@ export function useAnnouncements(config) {
     };
   }, [config]);
 
-  return { items, addLocal };
+  return { items, addLocal, votes };
+}
+
+const VOTE_PREFIX = "#vote:";
+
+function isVote(row) {
+  return row.message.trim().toLowerCase().startsWith(VOTE_PREFIX);
+}
+
+// Latest submission per name wins, so people can change their minds.
+// Returns [{ option, count }] sorted by count descending.
+function tallyVotes(voteRows) {
+  const latestByName = new Map();
+  for (const row of voteRows) {
+    const prev = latestByName.get(row.name.toLowerCase());
+    if (!prev || row.postedAt > prev.postedAt) {
+      latestByName.set(row.name.toLowerCase(), row);
+    }
+  }
+  const counts = new Map();
+  for (const row of latestByName.values()) {
+    const picks = row.message.trim().slice(VOTE_PREFIX.length).split("|");
+    for (const p of picks) {
+      const opt = p.trim();
+      if (opt) counts.set(opt, (counts.get(opt) ?? 0) + 1);
+    }
+  }
+  return [...counts.entries()]
+    .map(([option, count]) => ({ option, count }))
+    .sort((a, b) => b.count - a.count);
 }
 
 // Minimal CSV parser handling quoted fields (sufficient for Sheets export).

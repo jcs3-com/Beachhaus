@@ -73,8 +73,66 @@ export const Config = {
   // Static shared-album links (no Photos API in v1).
   photoAlbums: [
     {
-      label: "Beach Week 2026",
-      url: "https://photos.app.goo.gl/REPLACE_ME",
+      label: "Beach Week 2026 — shared album",
+      url: "https://photos.app.goo.gl/YMwAqKzJbna5cHpMA",
     },
   ],
+
+  // Useful links card. VRBO URL still needed from James.
+  usefulLinks: [
+    {
+      label: "Order groceries (Instacart)",
+      url: "https://www.instacart.com",
+      note: "Delivery to the house",
+    },
+    {
+      label: "Morning coffee — Clove & Cedar",
+      url: "https://maps.google.com/?q=Clove+%26+Cedar+Coffeebar+Bethany+Beach",
+      note: "759 Garfield Pkwy · opens 7:30am",
+    },
+    {
+      label: "Beach forecast (NWS)",
+      url: "https://forecast.weather.gov/MapClick.php?lat=38.5393&lon=-75.0552",
+      note: "Official point forecast",
+    },
+    {
+      label: "Bandstand events",
+      url: "https://www.townofbethanybeach.com/261/Bandstand",
+      note: "Free concerts, movies, kids nights",
+    },
+    {
+      label: "Our VRBO listing",
+      url: "REPLACE_ME_VRBO_URL",
+      note: "Rental details",
+    },
+    {
+      label: "House info one-pager",
+      url: "house-info.html",
+      note: "Codes, tips, checkout list (printable)",
+    },
+  ],
+
+  // Pre-vacation poll. Votes post through the announcements form
+  // as structured notes ("#vote: a|b|c") and tally from the same CSV.
+  poll: {
+    question: "What are you most looking forward to?",
+    options: [
+      "Beach days",
+      "Pool time",
+      "Getting ice cream",
+      "Boardwalk fries",
+      "Mini golf",
+      "Bandstand concerts",
+      "Boardwalk movie night",
+      "Firefly walks",
+      "Bike rides",
+      "Tennis & fitness center",
+      "Farmers market",
+      "Fishing",
+      "Kayaking",
+      "Shopping in town",
+      "Dinner out",
+      "Nature Center & osprey trail",
+    ],
+  },
 };

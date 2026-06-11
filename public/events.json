@@ -1,0 +1,258 @@
+{
+  "generatedAt": "2026-06-11T13:43:00.197Z",
+  "source": "static-agenda-2026",
+  "events": [
+    {
+      "title": "Check-in & unpack",
+      "start": "2026-07-11T20:00:00.000Z",
+      "end": "2026-07-11T21:30:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Boardwalk stroll + ice cream (concert 7:30)",
+      "start": "2026-07-11T23:00:00.000Z",
+      "end": "2026-07-12T00:45:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Feierabend",
+      "start": "2026-07-12T01:00:00.000Z",
+      "end": "2026-07-12T03:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Early kids breakfast",
+      "start": "2026-07-12T11:30:00.000Z",
+      "end": "2026-07-12T12:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Bethany Farmers Market",
+      "start": "2026-07-12T12:30:00.000Z",
+      "end": "2026-07-12T13:30:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Beach morning",
+      "start": "2026-07-12T13:45:00.000Z",
+      "end": "2026-07-12T16:30:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Pool time (Sea Colony passes)",
+      "start": "2026-07-12T18:00:00.000Z",
+      "end": "2026-07-12T20:30:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Ice cream run — By The Bay Creamery",
+      "start": "2026-07-12T20:45:00.000Z",
+      "end": "2026-07-12T21:15:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Firefly walk",
+      "start": "2026-07-13T00:00:00.000Z",
+      "end": "2026-07-13T00:45:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Feierabend",
+      "start": "2026-07-13T01:00:00.000Z",
+      "end": "2026-07-13T03:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Early kids breakfast",
+      "start": "2026-07-13T11:30:00.000Z",
+      "end": "2026-07-13T12:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Beach morning",
+      "start": "2026-07-13T13:00:00.000Z",
+      "end": "2026-07-13T16:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Boardwalk fries — D B Fries",
+      "start": "2026-07-13T16:15:00.000Z",
+      "end": "2026-07-13T17:15:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Pool time (Sea Colony passes)",
+      "start": "2026-07-13T18:00:00.000Z",
+      "end": "2026-07-13T20:30:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Movie on the Bandstand (dusk)",
+      "start": "2026-07-14T00:30:00.000Z",
+      "end": "2026-07-14T02:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Feierabend",
+      "start": "2026-07-14T01:00:00.000Z",
+      "end": "2026-07-14T03:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Early kids breakfast",
+      "start": "2026-07-14T11:30:00.000Z",
+      "end": "2026-07-14T12:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Beach morning",
+      "start": "2026-07-14T13:00:00.000Z",
+      "end": "2026-07-14T16:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Pool time (Sea Colony passes)",
+      "start": "2026-07-14T18:00:00.000Z",
+      "end": "2026-07-14T20:30:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Bike ride + ice cream at Ba Roos",
+      "start": "2026-07-14T20:45:00.000Z",
+      "end": "2026-07-14T22:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Firefly walk #2",
+      "start": "2026-07-15T00:00:00.000Z",
+      "end": "2026-07-15T00:45:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Feierabend",
+      "start": "2026-07-15T01:00:00.000Z",
+      "end": "2026-07-15T03:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Early kids breakfast",
+      "start": "2026-07-15T11:30:00.000Z",
+      "end": "2026-07-15T12:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Bethany Beach Nature Center",
+      "start": "2026-07-15T14:00:00.000Z",
+      "end": "2026-07-15T15:30:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Pool time (Sea Colony passes)",
+      "start": "2026-07-15T18:00:00.000Z",
+      "end": "2026-07-15T20:30:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Kids Night at the Bandstand",
+      "start": "2026-07-15T22:00:00.000Z",
+      "end": "2026-07-15T23:30:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Feierabend",
+      "start": "2026-07-16T01:00:00.000Z",
+      "end": "2026-07-16T03:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Early kids breakfast",
+      "start": "2026-07-16T11:30:00.000Z",
+      "end": "2026-07-16T12:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Tennis + fitness center (Sea Colony passes)",
+      "start": "2026-07-16T12:15:00.000Z",
+      "end": "2026-07-16T13:15:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Beach late morning",
+      "start": "2026-07-16T13:30:00.000Z",
+      "end": "2026-07-16T16:15:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Pool time (Sea Colony passes)",
+      "start": "2026-07-16T18:00:00.000Z",
+      "end": "2026-07-16T20:30:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Family dinner out",
+      "start": "2026-07-16T21:30:00.000Z",
+      "end": "2026-07-16T23:15:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Seaside Concert at the Bandstand",
+      "start": "2026-07-16T23:30:00.000Z",
+      "end": "2026-07-17T01:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Feierabend",
+      "start": "2026-07-17T01:00:00.000Z",
+      "end": "2026-07-17T03:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Early kids breakfast",
+      "start": "2026-07-17T11:30:00.000Z",
+      "end": "2026-07-17T12:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Beach morning — last full beach day",
+      "start": "2026-07-17T13:00:00.000Z",
+      "end": "2026-07-17T16:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Pool time (Sea Colony passes)",
+      "start": "2026-07-17T18:00:00.000Z",
+      "end": "2026-07-17T20:30:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Mini golf — Pirate Golf",
+      "start": "2026-07-17T22:30:00.000Z",
+      "end": "2026-07-17T23:45:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Sunset ice cream — By The Bay Creamery",
+      "start": "2026-07-17T23:45:00.000Z",
+      "end": "2026-07-18T00:15:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Feierabend",
+      "start": "2026-07-18T01:00:00.000Z",
+      "end": "2026-07-18T03:00:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "One last beach walk",
+      "start": "2026-07-18T11:30:00.000Z",
+      "end": "2026-07-18T12:15:00.000Z",
+      "allDay": false
+    },
+    {
+      "title": "Pack up & check out",
+      "start": "2026-07-18T12:30:00.000Z",
+      "end": "2026-07-18T14:00:00.000Z",
+      "allDay": false
+    }
+  ]
+}

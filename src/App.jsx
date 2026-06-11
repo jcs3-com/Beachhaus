@@ -4,6 +4,7 @@ import { useClock } from "./hooks/useClock.js";
 import { useWeather } from "./hooks/useWeather.js";
 import { useAnnouncements } from "./hooks/useAnnouncements.js";
 import { useEvents } from "./hooks/useEvents.js";
+import { Poll } from "./components/Poll.jsx";
 import { SkyBackdrop } from "./components/SkyBackdrop.jsx";
 import { HouseLayer } from "./components/HouseLayer.jsx";
 import {
@@ -12,13 +13,14 @@ import {
   Agenda,
   Announcements,
   PhotoLinks,
+  UsefulLinks,
 } from "./components/Widgets.jsx";
 
 export default function App() {
   const now = useClock();
   const { raw: rawWeather } = useWeather(Config);
-  const { items: announcements, addLocal } = useAnnouncements(Config);
-  const events = useEvents();
+  const { items: announcements, addLocal, votes } = useAnnouncements(Config);
+  const { events, preview } = useEvents();
 
   // Single derivation point: everything below renders from WorldState.
   const worldState = deriveWorldState({
@@ -57,13 +59,22 @@ export default function App() {
           <WeatherWidget worldState={worldState} />
           <PhotoLinks albums={Config.photoAlbums} />
           <div className="sm:col-span-2">
-            <Agenda worldState={worldState} />
+            <Agenda worldState={worldState} preview={preview} />
           </div>
           <Announcements
             worldState={worldState}
             formConfig={Config.announcements.form}
             onPosted={addLocal}
           />
+          <div className="sm:col-span-2">
+            <Poll
+              pollConfig={Config.poll}
+              formConfig={Config.announcements.form}
+              votes={votes}
+              onVoted={() => {}}
+            />
+          </div>
+          <UsefulLinks links={Config.usefulLinks} />
         </div>
       </main>
     </>

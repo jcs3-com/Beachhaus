@@ -60,22 +60,26 @@ export function DayCounter({ worldState }) {
   );
 }
 
-export function Agenda({ worldState }) {
+export function Agenda({ worldState, preview }) {
   const now = worldState.now;
   const events = worldState.events;
+  const showingPreview = events.length === 0 && preview?.events?.length > 0;
+  const list = showingPreview ? preview.events : events;
   return (
     <div className="beach-card p-5">
       <h2 className="font-[var(--font-display)] text-lg text-[var(--color-driftwood)]">
-        Today's agenda
+        {showingPreview
+          ? `Next up — ${preview.date.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" })}`
+          : "Today's agenda"}
       </h2>
-      {events.length === 0 ? (
+      {list.length === 0 ? (
         <p className="text-sm text-stone-500 mt-2">
           Nothing scheduled. A perfect beach day.
         </p>
       ) : (
         <ul className="mt-3 space-y-2.5">
-          {events.map((e, i) => {
-            const past = e.start < now;
+          {list.map((e, i) => {
+            const past = !showingPreview && e.start < now;
             return (
               <li key={i} className={`flex gap-3 items-baseline ${past ? "opacity-45" : ""}`}>
                 <span className="text-sm font-bold text-[var(--color-coral)] w-20 shrink-0 tabular-nums">
@@ -136,6 +140,41 @@ export function PhotoLinks({ albums }) {
         ))}
       </ul>
       <p className="text-xs text-stone-500 mt-3">Drop your shots in the shared album.</p>
+    </div>
+  );
+}
+
+
+export function UsefulLinks({ links }) {
+  return (
+    <div className="beach-card p-5">
+      <h2 className="font-[var(--font-display)] text-lg text-[var(--color-driftwood)]">
+        Useful links
+      </h2>
+      <ul className="mt-3 space-y-2.5">
+        {links.map((l, i) => {
+          const pending = l.url.startsWith("REPLACE_ME");
+          return (
+            <li key={i}>
+              {pending ? (
+                <span className="text-stone-400 font-semibold">
+                  {l.label} <span className="text-xs font-normal">(coming soon)</span>
+                </span>
+              ) : (
+                <a
+                  href={l.url}
+                  target={l.url.startsWith("http") ? "_blank" : "_self"}
+                  rel="noopener noreferrer"
+                  className="font-semibold text-[var(--color-coral)] hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-coral)] rounded"
+                >
+                  {l.label} →
+                </a>
+              )}
+              <span className="block text-xs text-stone-500">{l.note}</span>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
