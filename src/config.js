@@ -65,7 +65,7 @@ export const Config = {
       entryNote: "entry.869075138",
     },
     csvUrl:
-      "https://docs.google.com/spreadsheets/d/1eDVRMXQydFSojtzRThui04gkd0yHuM3CZse2P_el09c/gviz/tq?tqx=out:csv&sheet=Form%20Responses%201",
+      "https://docs.google.com/spreadsheets/d/1K6hl_lmW5jgMSmgy3w5g-Fa78J4UvVQ-ofWA7JxedTI/gviz/tq?tqx=out:csv&sheet=Form%20Responses%201",
     // Default expiry policy: next local midnight after posting.
     defaultExpiry: "next-local-midnight",
   },
