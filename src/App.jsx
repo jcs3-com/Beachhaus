@@ -5,6 +5,7 @@ import { useWeather } from "./hooks/useWeather.js";
 import { useAnnouncements } from "./hooks/useAnnouncements.js";
 import { sampleEvents } from "./data/sampleEvents.js";
 import { SkyBackdrop } from "./components/SkyBackdrop.jsx";
+import { HouseLayer } from "./components/HouseLayer.jsx";
 import {
   WeatherWidget,
   DayCounter,
@@ -36,6 +37,7 @@ export default function App() {
   return (
     <>
       <SkyBackdrop worldState={worldState} />
+      <HouseLayer worldState={worldState} />
       <main className="min-h-screen px-4 py-8 sm:px-8 max-w-5xl mx-auto">
         <header className="text-center mb-8">
           <h1
