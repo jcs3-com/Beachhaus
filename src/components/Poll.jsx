@@ -16,7 +16,6 @@ export function Poll({ pollConfig, formConfig, votes, onVoted }) {
 
   const wired = formConfig.entryName && formConfig.entryNote;
   const maxCount = Math.max(1, ...votes.map((v) => v.count));
-  const countFor = (opt) => votes.find((v) => v.option === opt)?.count ?? 0;
 
   function toggle(opt) {
     setSelected((prev) => {
@@ -60,38 +59,22 @@ export function Poll({ pollConfig, formConfig, votes, onVoted }) {
         Pick as many as you like — change your mind anytime.
       </p>
 
-      <ul className="mt-3 space-y-1.5">
+      <ul className="mt-3 flex flex-wrap gap-1.5">
         {pollConfig.options.map((opt) => {
-          const count = countFor(opt);
-          const pct = Math.round((count / maxCount) * 100);
           const isSelected = selected.has(opt);
           return (
             <li key={opt}>
               <button
                 onClick={() => toggle(opt)}
                 aria-pressed={isSelected}
-                className={`relative w-full text-left rounded-lg px-3 py-2 text-sm overflow-hidden border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-coral)] ${
+                className={`rounded-full px-3 py-1.5 text-sm border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-coral)] ${
                   isSelected
-                    ? "border-[var(--color-coral)] bg-white/70 font-semibold text-stone-800"
-                    : "border-transparent bg-white/40 text-stone-700 hover:bg-white/60"
+                    ? "border-[var(--color-coral)] bg-[var(--color-coral)] text-white font-semibold"
+                    : "border-stone-300 bg-white/50 text-stone-700 hover:bg-white/80"
                 }`}
               >
-                <span
-                  className="absolute inset-y-0 left-0 bg-[var(--color-seafoam)] opacity-70 transition-[width] duration-700"
-                  style={{ width: count ? `${pct}%` : "0%" }}
-                  aria-hidden="true"
-                />
-                <span className="relative flex justify-between items-center">
-                  <span>
-                    {isSelected ? "✓ " : ""}
-                    {opt}
-                  </span>
-                  {count > 0 && (
-                    <span className="text-xs font-bold text-stone-600 tabular-nums">
-                      {count}
-                    </span>
-                  )}
-                </span>
+                {isSelected ? "✓ " : ""}
+                {opt}
               </button>
             </li>
           );
@@ -116,6 +99,53 @@ export function Poll({ pollConfig, formConfig, votes, onVoted }) {
           Make your picks — voting submits once the board is wired up.
         </p>
       )}
+
+      <div className="mt-5">
+        <h3 className="font-[var(--font-display)] text-base text-[var(--color-driftwood)]">
+          🏆 Standings
+        </h3>
+        {votes.length === 0 ? (
+          <p className="text-sm text-stone-500 mt-2">
+            No votes yet — be the first.
+          </p>
+        ) : (
+          <ol className="mt-2 space-y-1.5">
+            {votes.map((v, i) => {
+              const pct = Math.max(8, Math.round((v.count / maxCount) * 100));
+              const leader = i === 0;
+              return (
+                <li key={v.option} className="flex items-center gap-2 text-sm">
+                  <span className="w-5 shrink-0 text-right text-xs font-bold text-stone-400 tabular-nums">
+                    {i + 1}
+                  </span>
+                  <div className="relative flex-1 h-7 rounded-md bg-white/40 overflow-hidden">
+                    <div
+                      className={`absolute inset-y-0 left-0 rounded-md transition-[width] duration-700 ${
+                        leader
+                          ? "bg-[var(--color-coral)]"
+                          : "bg-[var(--color-seafoam)]"
+                      }`}
+                      style={{ width: `${pct}%` }}
+                      aria-hidden="true"
+                    />
+                    <span
+                      className={`relative z-10 flex h-full items-center px-2 font-semibold ${
+                        leader ? "text-white" : "text-stone-700"
+                      }`}
+                    >
+                      {leader ? "👑 " : ""}
+                      {v.option}
+                    </span>
+                  </div>
+                  <span className="w-7 shrink-0 text-right font-bold text-stone-700 tabular-nums">
+                    {v.count}
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+        )}
+      </div>
     </div>
   );
 }
