@@ -58,11 +58,11 @@ export const Config = {
     // falls back to opening the form in a new tab.
     form: {
       actionUrl:
-        "https://docs.google.com/forms/d/e/1FAIpQLSf7bPW28vXWj5uhBuZdCvstQ7Q3TbAxHOBl6YD40CeHx4tZtg/formResponse",
+        "https://docs.google.com/forms/d/e/1FAIpQLSf1urvT16uzIIMBkzw6bY1_Ir5bKn1U5QgumGVn3fCWIpP_PA/formResponse",
       viewUrl:
-        "https://docs.google.com/forms/d/e/1FAIpQLSf7bPW28vXWj5uhBuZdCvstQ7Q3TbAxHOBl6YD40CeHx4tZtg/viewform",
-      entryName: "",
-      entryNote: "",
+        "https://docs.google.com/forms/d/e/1FAIpQLSf1urvT16uzIIMBkzw6bY1_Ir5bKn1U5QgumGVn3fCWIpP_PA/viewform",
+      entryName: "entry.1416146704",
+      entryNote: "entry.869075138",
     },
     csvUrl:
       "https://docs.google.com/spreadsheets/d/1eDVRMXQydFSojtzRThui04gkd0yHuM3CZse2P_el09c/gviz/tq?tqx=out:csv&sheet=Form%20Responses%201",
@@ -102,7 +102,7 @@ export const Config = {
     },
     {
       label: "Our VRBO listing",
-      url: "REPLACE_ME_VRBO_URL",
+      url: "https://vrbo.onelink.me/ItNz/kdhgdjqi",
       note: "Rental details",
     },
     {

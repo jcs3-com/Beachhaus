@@ -35,8 +35,8 @@ export const agenda2026 = [
     })
   ),
   ...[12, 13, 14, 15, 16, 17].map((d) =>
-    ev(d, "14:00", "16:30", "Pool time (Sea Colony passes)", {
-      description: "Afternoon pool block. Passes in the kitchen drawer.",
+    ev(d, "14:00", "16:30", "Pool time (Bethany West)", {
+      description: "Afternoon pool block at the Bethany West community pool. Passes in the kitchen drawer.",
     })
   ),
   ...[11, 12, 13, 14, 15, 16, 17].map((d) =>
@@ -96,10 +96,12 @@ export const agenda2026 = [
   }),
 
   // ---- Thursday Jul 16 ----
-  ev(16, "08:15", "09:15", "Tennis + fitness center (Sea Colony passes)"),
+  ev(16, "08:15", "09:15", "Tennis or pickleball hour (Bethany West)", {
+    description: "Bethany West: 8 tennis courts + pickleball at the clubhouse on Half Moon Circle.",
+  }),
   ev(16, "09:30", "12:15", "Beach late morning"),
   ev(16, "17:30", "19:15", "Family dinner out", {
-    description: "The one big dinner out — pick a spot and reserve early in the week.",
+    description: "The one big dinner out. Walkable owner favorites: DiFebo's (Italian), Off the Hook (769 Garfield), CocoLo Sushi (776 Garfield). Reserve early in the week.",
   }),
   ev(16, "19:30", "21:00", "Seaside Concert at the Bandstand", {
     description: "Thursday summer concert, 7:30. Free, limited bench seating — bring chairs.",
