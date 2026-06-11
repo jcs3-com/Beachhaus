@@ -52,7 +52,8 @@ export const Config = {
   // Publish the sheet to the web as CSV and paste the URL here.
   // Empty string renders sample announcements.
   announcements: {
-    csvUrl: "",
+    csvUrl:
+      "https://docs.google.com/spreadsheets/d/1eDVRMXQydFSojtzRThui04gkd0yHuM3CZse2P_el09c/gviz/tq?tqx=out:csv&sheet=Form%20Responses%201",
     // Default expiry policy: next local midnight after posting.
     defaultExpiry: "next-local-midnight",
   },
