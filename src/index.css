@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Lilita One", system-ui, sans-serif;
+  --font-body: "Nunito Sans", system-ui, sans-serif;
+  --color-driftwood: #6b5d4f;
+  --color-seafoam: #cfe8e0;
+  --color-coral: #ff6f59;
+  --color-sandcard: rgba(255, 252, 245, 0.78);
+}
+
+body {
+  font-family: var(--font-body);
+  margin: 0;
+}
+
+/* ---------- glass cards over the living sky ---------- */
+.beach-card {
+  background: var(--color-sandcard);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 24px rgba(20, 40, 60, 0.12);
+}
+
+/* ---------- sky particles ---------- */
+.sky-star {
+  position: absolute;
+  border-radius: 9999px;
+  background: #fff;
+  animation: star-twinkle 4s ease-in-out infinite;
+}
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
+}
+
+.sky-sun {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #fff7d6 0%, #ffe28a 45%, rgba(255, 214, 110, 0) 75%);
+  filter: blur(1px);
+  transition: left 3s ease, top 3s ease;
+}
+
+.sky-moon {
+  position: absolute;
+  left: 72%;
+  top: 16%;
+  width: 64px;
+  height: 64px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%, #f5f3e8 0%, #d9d6c4 60%, #b9b6a6 100%);
+  box-shadow: 0 0 40px 12px rgba(240, 238, 220, 0.25);
+}
+
+.sky-cloud {
+  position: absolute;
+  left: -30%;
+  width: 220px;
+  height: 60px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow:
+    40px -22px 0 6px rgba(255, 255, 255, 0.85),
+    95px -8px 0 2px rgba(255, 255, 255, 0.85),
+    140px -20px 0 -6px rgba(255, 255, 255, 0.85);
+  animation-name: cloud-drift;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes cloud-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(160vw); }
+}
+
+.sky-raindrop {
+  position: absolute;
+  top: -8%;
+  width: 1.5px;
+  height: 18px;
+  background: linear-gradient(to bottom, rgba(200, 220, 245, 0), rgba(200, 220, 245, 0.8));
+  animation-name: rain-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes rain-fall {
+  from { transform: translateY(0); }
+  to { transform: translateY(115vh); }
+}
+
+.sky-snowflake {
+  position: absolute;
+  top: -5%;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.9);
+  animation-name: snow-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes snow-fall {
+  from { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(55vh) translateX(18px); }
+  to { transform: translateY(112vh) translateX(-10px); }
+}
+
+.sky-lightning {
+  background: rgba(255, 255, 240, 0);
+  animation: lightning-flash 9s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes lightning-flash {
+  0%, 91%, 95%, 100% { background: rgba(255, 255, 240, 0); }
+  92% { background: rgba(255, 255, 240, 0.45); }
+  93% { background: rgba(255, 255, 240, 0.08); }
+  94% { background: rgba(255, 255, 240, 0.35); }
+}
+
+/* ---------- accessibility ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .sky-star,
+  .sky-cloud,
+  .sky-raindrop,
+  .sky-snowflake,
+  .sky-lightning {
+    animation: none !important;
+  }
+  .sky-raindrop, .sky-snowflake { display: none; }
+}
