@@ -1,5 +1,5 @@
 // =============================================================
-// BeachHaus vacation agenda — July 11–18, 2026 (all times ET).
+// BeachHaus vacation agenda — August 8–15, 2026 (all times ET).
 // Single source of truth:
 //  - `node scripts/agenda-2026.mjs` regenerates public/events.json
 //  - the same list replays into the BeachHaus Google Calendar
@@ -20,104 +20,106 @@ const TZ = "-04:00"; // EDT in July
 function ev(day, startHM, endHM, title, opts = {}) {
   return {
     title,
-    start: `2026-07-${String(day).padStart(2, "0")}T${startHM}:00${TZ}`,
-    end: `2026-07-${String(day).padStart(2, "0")}T${endHM}:00${TZ}`,
+    start: `2026-08-${String(day).padStart(2, "0")}T${startHM}:00${TZ}`,
+    end: `2026-08-${String(day).padStart(2, "0")}T${endHM}:00${TZ}`,
     allDay: false,
     ...opts,
   };
 }
 
 export const agenda2026 = [
-  // ---- Daily rhythm (Jul 12–17) ----
-  ...[12, 13, 14, 15, 16, 17].map((d) =>
+  // ---- Daily rhythm (Aug 9–14) ----
+  ...[9, 10, 11, 12, 13, 14].map((d) =>
     ev(d, "07:30", "08:00", "Early kids breakfast", {
       description: "Wake-up 7:00. Kids eat first; everyone else grazes after.",
     })
   ),
-  ...[12, 13, 14, 15, 16, 17].map((d) =>
+  ...[9, 10, 11, 12, 13, 14].map((d) =>
     ev(d, "14:00", "16:30", "Pool time (Bethany West)", {
       description: "Afternoon pool block at the Bethany West community pool. Passes in the kitchen drawer.",
     })
   ),
-  ...[11, 12, 13, 14, 15, 16, 17].map((d) =>
+  ...[8, 9, 10, 11, 12, 13, 14].map((d) =>
     ev(d, "21:00", "23:00", "Feierabend", {
       description:
         "Kids are down — adult free time. Porch, cards, wine. (German: the easy evening after the work is done.)",
     })
   ),
 
-  // ---- Saturday Jul 11 — arrival ----
-  ev(11, "16:00", "17:30", "Check-in & unpack"),
-  ev(11, "19:00", "20:45", "Boardwalk stroll + ice cream (concert 7:30)", {
+  // ---- Saturday Aug 8 — arrival ----
+  ev(8, "15:00", "17:00", "Check-in & unpack (check-in 3pm)"),
+  ev(8, "19:00", "20:45", "Boardwalk stroll + ice cream (concert 7:30)", {
     description:
-      "First night on the boardwalk. Ice cream at Maureen's (99 Garfield Pkwy). Saturday Bandstand concert starts 7:30 — free, bring chairs.",
+      "First night on the boardwalk. Ice cream at Maureen's (99 Garfield Pkwy). Saturday Bandstand concert 7:30 — The Rock Orchestra (Jimmy Buffett tribute). Free, bring chairs.",
     location: "Bethany Beach Boardwalk",
   }),
 
-  // ---- Sunday Jul 12 ----
-  ev(12, "08:30", "09:30", "Bethany Farmers Market", {
+  // ---- Sunday Aug 9 ----
+  ev(9, "08:30", "09:30", "Bethany Farmers Market", {
     description: "Downtown, across from PNC Bank. Sundays all summer.",
   }),
-  ev(12, "09:45", "12:30", "Beach morning"),
-  ev(12, "16:45", "17:15", "Ice cream run — By The Bay Creamery", {
+  ev(9, "09:45", "12:30", "Beach morning"),
+  ev(9, "16:45", "17:15", "Ice cream run — By The Bay Creamery", {
     location: "26 N Pennsylvania Ave, Bethany Beach",
   }),
-  ev(12, "20:00", "20:45", "Firefly walk", {
+  ev(9, "20:00", "20:45", "Firefly walk", {
     description: "Dusk walk — bring the jars, release before bed.",
   }),
 
-  // ---- Monday Jul 13 ----
-  ev(13, "09:00", "12:00", "Beach morning"),
-  ev(13, "12:15", "13:15", "Boardwalk fries — D B Fries", {
+  // ---- Monday Aug 10 ----
+  ev(10, "09:00", "12:00", "Beach morning"),
+  ev(10, "12:15", "13:15", "Boardwalk fries — D B Fries", {
     description:
       "Bethany's boardwalk fries (100 Garfield Pkwy, right at the boardwalk). Malt vinegar mandatory.",
     location: "100 Garfield Pkwy, Bethany Beach",
   }),
-  ev(13, "20:30", "22:00", "Movie on the Bandstand (dusk)", {
+  ev(10, "20:30", "22:00", "Movie on the Bandstand (dusk)", {
     description: "Monday movie night on the boardwalk. Blankets + chairs.",
   }),
 
-  // ---- Tuesday Jul 14 ----
-  ev(14, "09:00", "12:00", "Beach morning"),
-  ev(14, "16:45", "18:00", "Bike ride + ice cream at Ba Roos", {
+  // ---- Tuesday Aug 11 ----
+  ev(11, "09:00", "12:00", "Beach morning"),
+  ev(11, "16:45", "18:00", "Bike ride + ice cream at Ba Roos", {
     description: "Easy ~1 mile ride. Smoothie bowls for the healthy, ice cream for the honest.",
     location: "33550 Market Pl, Bethany Beach",
   }),
-  ev(14, "20:00", "20:45", "Firefly walk #2"),
+  ev(11, "20:00", "20:45", "Firefly walk #2"),
 
-  // ---- Wednesday Jul 15 ----
-  ev(15, "10:00", "11:30", "Bethany Beach Nature Center", {
+  // ---- Wednesday Aug 12 ----
+  ev(12, "10:00", "11:30", "Bethany Beach Nature Center", {
     description:
       "Marsh boardwalk trail, osprey nests, playground. Free. Open Wed 10–3.",
     location: "807 Garfield Pkwy, Bethany Beach",
   }),
-  ev(15, "18:00", "19:30", "Kids Night at the Bandstand", {
-    description: "July Wednesdays, 6pm start. Family entertainment, free.",
+  ev(12, "18:00", "19:30", "Arcade night — Shore Fun Family Fun Center", {
+    description:
+      "Kids Nights at the Bandstand are July-only, so arcade night instead — claw machines, ticket games, prizes.",
+    location: "108 Garfield Pkwy, Bethany Beach",
   }),
 
-  // ---- Thursday Jul 16 ----
-  ev(16, "08:15", "09:15", "Tennis or pickleball hour (Bethany West)", {
+  // ---- Thursday Aug 13 ----
+  ev(13, "08:15", "09:15", "Tennis or pickleball hour (Bethany West)", {
     description: "Bethany West: 8 tennis courts + pickleball at the clubhouse on Half Moon Circle.",
   }),
-  ev(16, "09:30", "12:15", "Beach late morning"),
-  ev(16, "17:30", "19:15", "Family dinner out", {
+  ev(13, "09:30", "12:15", "Beach late morning"),
+  ev(13, "17:30", "19:15", "Family dinner out", {
     description: "The one big dinner out. Walkable owner favorites: DiFebo's (Italian), Off the Hook (769 Garfield), CocoLo Sushi (776 Garfield). Reserve early in the week.",
   }),
-  ev(16, "19:30", "21:00", "Seaside Concert at the Bandstand", {
-    description: "Thursday summer concert, 7:30. Free, limited bench seating — bring chairs.",
+  ev(13, "19:30", "21:00", "Seaside Concert at the Bandstand", {
+    description: "Thursday summer concert, 7:30 — US Army Field Band (pop). Free, limited bench seating — bring chairs.",
   }),
 
-  // ---- Friday Jul 17 ----
-  ev(17, "09:00", "12:00", "Beach morning — last full beach day"),
-  ev(17, "18:30", "19:45", "Mini golf — Pirate Golf", {
+  // ---- Friday Aug 14 ----
+  ev(14, "09:00", "12:00", "Beach morning — last full beach day"),
+  ev(14, "18:30", "19:45", "Mini golf — Pirate Golf", {
     description: "In town, walkable from the boardwalk. Loser buys ice cream.",
     location: "21 N Pennsylvania Ave, Bethany Beach",
   }),
-  ev(17, "19:45", "20:15", "Sunset ice cream — By The Bay Creamery"),
+  ev(14, "19:45", "20:15", "Sunset ice cream — By The Bay Creamery"),
 
-  // ---- Saturday Jul 18 — departure ----
-  ev(18, "07:30", "08:15", "One last beach walk"),
-  ev(18, "08:30", "10:00", "Pack up & check out"),
+  // ---- Saturday Aug 15 — departure ----
+  ev(15, "07:30", "08:15", "One last beach walk"),
+  ev(15, "08:30", "10:00", "Pack up & check out"),
 ];
 
 // ---- regenerate public/events.json ----

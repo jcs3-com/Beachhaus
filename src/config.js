@@ -21,8 +21,8 @@ export const Config = {
   // Vacation window for the day counter.
   // Update these per stay. ISO dates, local to `location.timezone`.
   vacation: {
-    startDate: "2026-07-11",
-    endDate: "2026-07-18",
+    startDate: "2026-08-08",
+    endDate: "2026-08-15",
   },
 
   // Clock-based timeOfDay boundaries (24h, local). Phase 2 replaces
