@@ -1,4 +1,5 @@
 // All widgets read only from WorldState (plus Config for static links).
+import { NoteComposer } from "./NoteComposer.jsx";
 
 function fmtTime(d) {
   return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
@@ -90,7 +91,7 @@ export function Agenda({ worldState }) {
   );
 }
 
-export function Announcements({ worldState }) {
+export function Announcements({ worldState, formConfig, onPosted }) {
   const items = worldState.announcements;
   return (
     <div className="beach-card p-5">
@@ -111,6 +112,7 @@ export function Announcements({ worldState }) {
           ))}
         </ul>
       )}
+      <NoteComposer formConfig={formConfig} onPosted={onPosted} />
     </div>
   );
 }

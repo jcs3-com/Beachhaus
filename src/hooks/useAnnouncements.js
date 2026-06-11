@@ -12,6 +12,11 @@ import { sampleAnnouncements } from "../data/sampleAnnouncements.js";
 export function useAnnouncements(config) {
   const [items, setItems] = useState(null);
 
+  // Optimistic local add: the composer calls this immediately after a
+  // (blind, no-cors) form POST so the poster sees their note at once.
+  // The next CSV poll reconciles with the sheet of record.
+  const addLocal = (note) => setItems((prev) => [note, ...(prev ?? [])]);
+
   useEffect(() => {
     const url = config.announcements.csvUrl;
     if (!url) {
@@ -27,21 +32,22 @@ export function useAnnouncements(config) {
         if (!res.ok) throw new Error(`Sheet CSV ${res.status}`);
         const text = await res.text();
         if (cancelled) return;
-        setItems(applyExpiry(parseCsv(text)));
+        const fresh = applyExpiry(parseCsv(text));
+        setItems((prev) => mergeOptimistic(fresh, prev));
       } catch {
         if (!cancelled) setItems(sampleAnnouncements);
       }
     }
 
     load();
-    const id = setInterval(load, 5 * 60000);
+    const id = setInterval(load, 90 * 1000);
     return () => {
       cancelled = true;
       clearInterval(id);
     };
   }, [config]);
 
-  return items;
+  return { items, addLocal };
 }
 
 // Minimal CSV parser handling quoted fields (sufficient for Sheets export).
@@ -97,4 +103,18 @@ function applyExpiry(items) {
   return items
     .filter((a) => a.postedAt >= startOfToday && a.message.trim() !== "")
     .sort((a, b) => b.postedAt - a.postedAt);
+}
+
+// Keep recently-posted optimistic notes (last 5 min) that the sheet
+// export hasn't reflected yet; drop them once the real row appears.
+function mergeOptimistic(fresh, prev) {
+  if (!prev) return fresh;
+  const cutoff = Date.now() - 5 * 60000;
+  const pending = prev.filter(
+    (p) =>
+      p.optimistic &&
+      p.postedAt.getTime() > cutoff &&
+      !fresh.some((f) => f.message === p.message && f.name === p.name)
+  );
+  return [...pending, ...fresh].sort((a, b) => b.postedAt - a.postedAt);
 }

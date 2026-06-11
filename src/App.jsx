@@ -17,7 +17,7 @@ import {
 export default function App() {
   const now = useClock();
   const { raw: rawWeather } = useWeather(Config);
-  const announcements = useAnnouncements(Config);
+  const { items: announcements, addLocal } = useAnnouncements(Config);
   const events = useEvents();
 
   // Single derivation point: everything below renders from WorldState.
@@ -59,7 +59,11 @@ export default function App() {
           <div className="sm:col-span-2">
             <Agenda worldState={worldState} />
           </div>
-          <Announcements worldState={worldState} />
+          <Announcements
+            worldState={worldState}
+            formConfig={Config.announcements.form}
+            onPosted={addLocal}
+          />
         </div>
       </main>
     </>

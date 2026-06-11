@@ -52,6 +52,18 @@ export const Config = {
   // Publish the sheet to the web as CSV and paste the URL here.
   // Empty string renders sample announcements.
   announcements: {
+    // Inline composer posts here (Google Forms formResponse endpoint).
+    // entryName/entryNote are the form's internal field IDs — found via
+    // the form's "Get pre-filled link". Until set, the Post button
+    // falls back to opening the form in a new tab.
+    form: {
+      actionUrl:
+        "https://docs.google.com/forms/d/e/1FAIpQLSf7bPW28vXWj5uhBuZdCvstQ7Q3TbAxHOBl6YD40CeHx4tZtg/formResponse",
+      viewUrl:
+        "https://docs.google.com/forms/d/e/1FAIpQLSf7bPW28vXWj5uhBuZdCvstQ7Q3TbAxHOBl6YD40CeHx4tZtg/viewform",
+      entryName: "",
+      entryNote: "",
+    },
     csvUrl:
       "https://docs.google.com/spreadsheets/d/1eDVRMXQydFSojtzRThui04gkd0yHuM3CZse2P_el09c/gviz/tq?tqx=out:csv&sheet=Form%20Responses%201",
     // Default expiry policy: next local midnight after posting.
