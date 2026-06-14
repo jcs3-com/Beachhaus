@@ -20,7 +20,7 @@ export default function App() {
   const now = useClock();
   const { raw: rawWeather } = useWeather(Config);
   const { items: announcements, addLocal, votes, addLocalVotes } = useAnnouncements(Config);
-  const { events, preview } = useEvents();
+  const { events, preview, all: allEvents } = useEvents();
 
   // Single derivation point: everything below renders from WorldState.
   const worldState = deriveWorldState({
@@ -54,12 +54,12 @@ export default function App() {
           </p>
         </header>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-12 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <DayCounter worldState={worldState} />
           <WeatherWidget worldState={worldState} />
           <PhotoLinks albums={Config.photoAlbums} />
           <div className="sm:col-span-2">
-            <Agenda worldState={worldState} preview={preview} />
+            <Agenda worldState={worldState} preview={preview} allEvents={allEvents} />
           </div>
           <Announcements
             worldState={worldState}

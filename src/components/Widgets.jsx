@@ -1,4 +1,5 @@
 // All widgets read only from WorldState (plus Config for static links).
+import { useState } from "react";
 import { NoteComposer } from "./NoteComposer.jsx";
 
 function fmtTime(d) {
@@ -60,36 +61,119 @@ export function DayCounter({ worldState }) {
   );
 }
 
-export function Agenda({ worldState, preview }) {
+function dayHeading(d) {
+  return d.toLocaleDateString([], {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+function EventRow({ e, now, dim }) {
+  const past = dim && e.start < now;
+  return (
+    <li className={`flex gap-3 items-baseline ${past ? "opacity-45" : ""}`}>
+      <span className="text-sm font-bold text-[var(--color-coral)] w-20 shrink-0 tabular-nums">
+        {fmtTime(e.start)}
+      </span>
+      <span className={`text-stone-700 ${past ? "line-through" : ""}`}>
+        {e.title}
+      </span>
+    </li>
+  );
+}
+
+export function Agenda({ worldState, preview, allEvents }) {
   const now = worldState.now;
   const events = worldState.events;
+  const [view, setView] = useState("today"); // "today" | "upcoming"
+
   const showingPreview = events.length === 0 && preview?.events?.length > 0;
-  const list = showingPreview ? preview.events : events;
+
+  // Group the full calendar by calendar-day for the Upcoming view.
+  const upcoming = (allEvents ?? []).filter((e) => {
+    const end = e.end ?? e.start;
+    return end >= now || e.start.toDateString() === now.toDateString();
+  });
+  const groups = [];
+  for (const e of upcoming) {
+    const key = e.start.toDateString();
+    const last = groups[groups.length - 1];
+    if (last && last.key === key) last.items.push(e);
+    else groups.push({ key, date: e.start, items: [e] });
+  }
+
+  const todayHeading = showingPreview
+    ? `Next up — ${dayHeading(preview.date)}`
+    : "Today's agenda";
+
   return (
     <div className="beach-card p-5">
-      <h2 className="font-[var(--font-display)] text-lg text-[var(--color-driftwood)]">
-        {showingPreview
-          ? `Next up — ${preview.date.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" })}`
-          : "Today's agenda"}
-      </h2>
-      {list.length === 0 ? (
-        <p className="text-sm text-stone-500 mt-2">
-          Nothing scheduled. A perfect beach day.
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="font-[var(--font-display)] text-lg text-[var(--color-driftwood)]">
+          {view === "today" ? todayHeading : "Upcoming events"}
+        </h2>
+        <div
+          className="inline-flex rounded-full bg-black/5 p-0.5 text-xs font-bold shrink-0"
+          role="group"
+          aria-label="Agenda view"
+        >
+          <button
+            onClick={() => setView("today")}
+            aria-pressed={view === "today"}
+            className={`px-3 py-1 rounded-full transition ${
+              view === "today"
+                ? "bg-white text-[var(--color-coral)] shadow-sm"
+                : "text-stone-500"
+            }`}
+          >
+            Today
+          </button>
+          <button
+            onClick={() => setView("upcoming")}
+            aria-pressed={view === "upcoming"}
+            className={`px-3 py-1 rounded-full transition ${
+              view === "upcoming"
+                ? "bg-white text-[var(--color-coral)] shadow-sm"
+                : "text-stone-500"
+            }`}
+          >
+            Upcoming
+          </button>
+        </div>
+      </div>
+
+      {view === "today" ? (
+        (showingPreview ? preview.events : events).length === 0 ? (
+          <p className="text-sm text-stone-500 mt-3">
+            Nothing scheduled. A perfect beach day.
+          </p>
+        ) : (
+          <ul className="mt-3 space-y-2.5">
+            {(showingPreview ? preview.events : events).map((e, i) => (
+              <EventRow key={i} e={e} now={now} dim={!showingPreview} />
+            ))}
+          </ul>
+        )
+      ) : groups.length === 0 ? (
+        <p className="text-sm text-stone-500 mt-3">
+          No upcoming events on the calendar.
         </p>
       ) : (
-        <ul className="mt-3 space-y-2.5">
-          {list.map((e, i) => {
-            const past = !showingPreview && e.start < now;
-            return (
-              <li key={i} className={`flex gap-3 items-baseline ${past ? "opacity-45" : ""}`}>
-                <span className="text-sm font-bold text-[var(--color-coral)] w-20 shrink-0 tabular-nums">
-                  {fmtTime(e.start)}
-                </span>
-                <span className={`text-stone-700 ${past ? "line-through" : ""}`}>{e.title}</span>
-              </li>
-            );
-          })}
-        </ul>
+        <div className="mt-3 max-h-80 overflow-y-auto pr-1 space-y-4 overscroll-contain">
+          {groups.map((g) => (
+            <div key={g.key}>
+              <p className="text-xs font-bold uppercase tracking-wide text-stone-400 sticky top-0 bg-[var(--color-sandcard)] py-1 backdrop-blur-sm">
+                {dayHeading(g.date)}
+              </p>
+              <ul className="mt-1.5 space-y-2.5">
+                {g.items.map((e, i) => (
+                  <EventRow key={i} e={e} now={now} dim={false} />
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

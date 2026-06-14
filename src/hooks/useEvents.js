@@ -8,6 +8,7 @@ import { sampleEvents } from "../data/sampleEvents.js";
 export function useEvents() {
   const [events, setEvents] = useState(sampleEvents);
   const [preview, setPreview] = useState(null);
+  const [all, setAll] = useState(sampleEvents); // full calendar, for the Upcoming view
 
   useEffect(() => {
     let cancelled = false;
@@ -26,6 +27,8 @@ export function useEvents() {
           start: new Date(e.start),
           end: new Date(e.end),
         }));
+        all.sort((a, b) => a.start - b.start);
+        setAll(all);
         const todays = all.filter(
           (e) => e.start.toDateString() === today.toDateString()
         );
@@ -56,5 +59,5 @@ export function useEvents() {
     };
   }, []);
 
-  return { events, preview };
+  return { events, preview, all };
 }
