@@ -14,15 +14,27 @@
 // =============================================================
 
 import ical from "node-ical";
-import { writeFileSync, mkdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from "node:fs";
+import { Config } from "../src/config.js";
 
 const WINDOW_DAYS = 7;
+
+// Window: from start-of-today through the end of the vacation (+1 day),
+// but never shorter than WINDOW_DAYS. This keeps "Today's agenda" honest
+// (only genuinely today's items) while guaranteeing the full Beachhaus
+// trip is baked in for the Upcoming view, even when the trip is months out.
+function windowEndFor(now) {
+  const minEnd = new Date(now.getTime() + WINDOW_DAYS * 86400000);
+  const vacEnd = new Date(Config.vacation.endDate + "T23:59:59");
+  const vacEndPad = new Date(vacEnd.getTime() + 86400000);
+  return vacEndPad > minEnd ? vacEndPad : minEnd;
+}
 
 export function eventsFromIcs(icsText, now = new Date()) {
   const parsed = ical.sync.parseICS(icsText);
   const windowStart = new Date(now);
   windowStart.setHours(0, 0, 0, 0);
-  const windowEnd = new Date(windowStart.getTime() + WINDOW_DAYS * 86400000);
+  const windowEnd = windowEndFor(windowStart);
 
   const out = [];
 
@@ -81,6 +93,19 @@ if (process.argv[1] && process.argv[1].endsWith("fetch-events.mjs")) {
     process.exit(1);
   }
   const events = eventsFromIcs(await res.text());
+  // Don't blank a known-good calendar: if this run found nothing in the
+  // window, keep whatever events.json already exists rather than shipping
+  // an empty agenda.
+  if (events.length === 0 && existsSync("public/events.json")) {
+    const prev = JSON.parse(readFileSync("public/events.json", "utf8"));
+    const prevCount = Array.isArray(prev.events) ? prev.events.length : 0;
+    if (prevCount > 0) {
+      console.warn(
+        `ICS returned 0 events in window — preserving existing events.json (${prevCount} events).`
+      );
+      process.exit(0);
+    }
+  }
   mkdirSync("public", { recursive: true });
   writeFileSync(
     "public/events.json",
